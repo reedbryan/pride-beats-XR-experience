@@ -713,6 +713,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flashDuration: 0.12
+  drum: {fileID: 1825987321}
 --- !u!54 &1104531818
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6365,7 +6366,7 @@ Transform:
   m_GameObject: {fileID: 1825987321}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.027415194, y: 0.112683535, z: 1.456}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 0.4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6479,6 +6480,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flashDuration: 0.12
+  drum: {fileID: 1825987321}
 --- !u!54 &2002235836
 Rigidbody:
   m_ObjectHideFlags: 0

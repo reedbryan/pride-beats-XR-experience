@@ -712,8 +712,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7c73c9ed3ee412448920ee51609aaac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashDuration: 0.12
-  drum: {fileID: 1825987321}
 --- !u!54 &1104531818
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -848,6 +846,50 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1143979284}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1171567536
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1171567538}
+  - component: {fileID: 1171567537}
+  m_Layer: 0
+  m_Name: Beat Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1171567537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171567536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cf7a91fd21f7124398d47e3de1ced38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1171567538
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171567536}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.0513015, y: -0.29686427, z: -0.43988657}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1194575582
 GameObject:
   m_ObjectHideFlags: 0
@@ -6278,6 +6320,8 @@ GameObject:
   - component: {fileID: 1825987324}
   - component: {fileID: 1825987323}
   - component: {fileID: 1825987322}
+  - component: {fileID: 1825987327}
+  - component: {fileID: 1825987326}
   m_Layer: 0
   m_Name: Drum
   m_TagString: Drum
@@ -6373,6 +6417,31 @@ Transform:
   - {fileID: 1381960077}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1825987326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825987321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c354372f64444146b3a3d09fc2a7050, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashDuration: 0.12
+--- !u!114 &1825987327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825987321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cf7a91fd21f7124398d47e3de1ced38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1842748316
 GameObject:
   m_ObjectHideFlags: 0
@@ -6479,8 +6548,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7c73c9ed3ee412448920ee51609aaac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashDuration: 0.12
-  drum: {fileID: 1825987321}
 --- !u!54 &2002235836
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -12681,3 +12748,4 @@ SceneRoots:
   - {fileID: 3779725044559680324}
   - {fileID: 2982998299393685461}
   - {fileID: 1825987325}
+  - {fileID: 1171567538}

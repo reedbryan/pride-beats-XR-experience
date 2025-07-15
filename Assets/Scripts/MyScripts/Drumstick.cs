@@ -7,6 +7,16 @@ public class DrumstickHit : MonoBehaviour
     [Tooltip("How long the drum stays red (seconds).")]
     public float flashDuration = 0.12f;
 
+    private color _originalColor;
+
+    void Awake()
+    {
+        // Grab the first renderer on the drum object (or its children)
+        var renderer = drumCol.GetComponent<Renderer>() ?? drumCol.GetComponentInChildren<Renderer>();
+        if (renderer == null) yield break;
+
+        _originalColor = renderer.material.color;
+    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -18,15 +28,12 @@ public class DrumstickHit : MonoBehaviour
 
     IEnumerator FlashDrum(Collider drumCol)
     {
-        // Grab the first renderer on the drum object (or its children)
-        var renderer = drumCol.GetComponent<Renderer>() ?? drumCol.GetComponentInChildren<Renderer>();
-        if (renderer == null) yield break;
-
-        var original = renderer.material.color;
         renderer.material.color = Color.red;
+        transform.localScale *= 1.1f;
 
         yield return new WaitForSeconds(flashDuration);
 
-        renderer.material.color = original;
+        renderer.material.color = _originalColor;
+        transform.localScale /= 1.1f;
     }
 }

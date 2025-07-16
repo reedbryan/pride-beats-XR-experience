@@ -24,6 +24,7 @@ TagManager:
   - QDSUITextInputField
   - SamplesInfoPanel
   - Drum
+  - Notes
   layers:
   - Default
   - TransparentFX

@@ -10,9 +10,14 @@ public class Drumstick : MonoBehaviour
     [Tooltip("Drum GameObject that will flash and hold the particle system.")]
     public GameObject drum;
 
-    private Renderer   drumRenderer;
-    private Color      _originalColor;
-    private ParticleSystem hitParticles;
+    private Renderer drumRenderer;
+    private Color _originalColor;
+    private ParticleSystem red;
+    private ParticleSystem orange;
+    private ParticleSystem yellow;
+    private ParticleSystem green;
+    private ParticleSystem blue;
+    private ParticleSystem purple;
 
     void Awake()
     {
@@ -27,10 +32,15 @@ public class Drumstick : MonoBehaviour
         _originalColor = drumRenderer.material.color;
 
         // ---- Particle System --------------------------------------------
-        hitParticles = drum.GetComponentInChildren<ParticleSystem>();
-        if (hitParticles == null)
+        red = drum.transform.Find("Red").GetComponent<ParticleSystem>();
+        orange = drum.transform.Find("Orange").GetComponent<ParticleSystem>();
+        yellow = drum.transform.Find("Yellow").GetComponent<ParticleSystem>();
+        green = drum.transform.Find("Green").GetComponent<ParticleSystem>();
+        blue = drum.transform.Find("Blue").GetComponent<ParticleSystem>();
+        purple = drum.transform.Find("Purple").GetComponent<ParticleSystem>();
+        if (red == null || orange == null || yellow == null || green == null || blue == null || purple == null)
         {
-            Debug.LogWarning("Drumstick: No ParticleSystem found under the drum. Particle burst will be skipped.");
+            Debug.LogWarning("Drumstick: One or more ParticleSystems not found under the drum.");
         }
     }
 
@@ -39,7 +49,31 @@ public class Drumstick : MonoBehaviour
         // Only react to objects tagged "Drum"
         if (!other.CompareTag("Drum")) return;
 
-        StartCoroutine(FlashDrum());
+        if (IsAnyCylinderNoteNearby())
+        {
+            StartCoroutine(FlashDrum());
+        }
+    }
+
+    bool IsAnyCylinderNoteNearby()
+    {
+        // Get all active Notes prefabs in the scene
+        GameObject[] notesPrefabs = GameObject.FindGameObjectsWithTag("Notes");
+
+        foreach (GameObject notes in notesPrefabs)
+        {
+            // Check each child of the Notes object
+            foreach (Transform child in notes.transform)
+            {
+                float distance = Vector3.Distance(child.position, drum.transform.position);
+                if (distance <= 2f)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     IEnumerator FlashDrum()
@@ -49,10 +83,12 @@ public class Drumstick : MonoBehaviour
         transform.localScale *= 1.1f;
 
         // One‑shot particle burst
-        if (hitParticles != null)
-        {
-            hitParticles.Emit(1);   // single particle
-        }
+        red?.Emit(1);
+        orange?.Emit(1);
+        yellow?.Emit(1);
+        green?.Emit(1);
+        blue?.Emit(1);
+        purple?.Emit(1);
 
         yield return new WaitForSeconds(flashDuration);
 

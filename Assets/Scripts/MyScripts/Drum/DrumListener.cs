@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class DrumListener : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private QuestOSCClient OSCClient;
 
-    // Update is called once per frame
-    void Update()
+    public GameObject SpatialAnchorPrefab;
+
+    void Awake()
     {
-        
+        OSCClient = GetComponent<QuestOSCClient>();
+    }
+    
+    public void DrumHit()
+    {
+        //OSCClient.SendPlayerAction("DRUM HIT");
+        Instantiate(SpatialAnchorPrefab);
     }
 }

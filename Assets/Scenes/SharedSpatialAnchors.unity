@@ -226,53 +226,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 82450501}
   m_CullTransparentMesh: 1
---- !u!1 &185175897
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 185175899}
-  - component: {fileID: 185175898}
-  m_Layer: 0
-  m_Name: OSC Messenger
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &185175898
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 185175897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5519e16489279e4499962956d5bdf0e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  remoteHost: 127.0.0.1
-  remotePort: 7001
-  localPort: 7000
---- !u!4 &185175899
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 185175897}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.857298, y: 0.24692512, z: -0.37182236}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &214795174 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5414912244175512725, guid: 60fa00281e83b294583adc31df520fbe, type: 3}
@@ -999,50 +952,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1143979284}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1171567536
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1171567538}
-  - component: {fileID: 1171567537}
-  m_Layer: 0
-  m_Name: Beat Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1171567537
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1171567536}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cf7a91fd21f7124398d47e3de1ced38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1171567538
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1171567536}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.0513015, y: -0.29686427, z: -0.43988657}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1194575582
 GameObject:
   m_ObjectHideFlags: 0
@@ -6475,6 +6384,7 @@ GameObject:
   - component: {fileID: 1825987322}
   - component: {fileID: 1825987327}
   - component: {fileID: 1825987326}
+  - component: {fileID: 1825987328}
   m_Layer: 0
   m_Name: Drum
   m_TagString: Drum
@@ -6595,6 +6505,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cf7a91fd21f7124398d47e3de1ced38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SpatialAnchorPrefab: {fileID: 1978002011806910258, guid: cd2360f6c9f3b3b4f90f53cac91a9698, type: 3}
+--- !u!114 &1825987328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825987321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5519e16489279e4499962956d5bdf0e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  listenPort: 8100
+  testPrefab: {fileID: 6228487639444694027, guid: 2242f499332ebd34b9b8f647f282a42f, type: 3}
 --- !u!1 &1842748316
 GameObject:
   m_ObjectHideFlags: 0
@@ -12901,3 +12826,4 @@ SceneRoots:
   - {fileID: 3779725044559680324}
   - {fileID: 2982998299393685461}
   - {fileID: 1825987325}
+  - {fileID: 498869157}

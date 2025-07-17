@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Drumstick : MonoBehaviour
+public class Drumstick_reed : MonoBehaviour
 {
     private DrumEffects _drumEffects;
     private DrumListener _drumListener;

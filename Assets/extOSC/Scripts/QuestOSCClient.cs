@@ -7,39 +7,71 @@ public class QuestOSCClient : MonoBehaviour
     [Tooltip("The port this Quest device will listen on.")]
     public int listenPort = 8100;
 
+    [Tooltip("Remote IP to send OSC messages to (e.g., Game Manager PC).")]
+    public string remoteHost = "192.168.68.61"; // Replace with your PC's IP
+    public int remotePort = 8000;               // Replace with your PC's listening port
+
     public GameObject testPrefab;
 
     private OSCReceiver receiver;
+    private OSCTransmitter transmitter;
 
     void Start()
     {
-        // Create and configure the OSC receiver
+        // Setup OSC receiver
         receiver = gameObject.AddComponent<OSCReceiver>();
         receiver.LocalPort = listenPort;
 
-        // Bind a handler for the /StartGame address
         receiver.Bind("/StartGame", OnStartGame);
-
-        // Optional: catch-all to see any message
         receiver.Bind("/", OnAnyMessage);
 
         Debug.Log($"[QuestOSCReceiver] Listening for OSC on port {listenPort}...");
+
+        // Setup OSC transmitter
+        transmitter = gameObject.AddComponent<OSCTransmitter>();
+        transmitter.RemoteHost = remoteHost;
+        transmitter.RemotePort = remotePort;
+
+        InvokeRepeating(nameof(SendTestMessage), 0f, 1f);
+
+        Debug.Log($"[QuestOSCTransmitter] Ready to send to {remoteHost}:{remotePort}");
     }
+
+    void SendTestMessage()
+    {
+        SendOSCMessage("/PlayerAction", "WE HAVE MADE CONTACT");
+    }
+
+
 
     void OnStartGame(OSCMessage message)
     {
         Debug.Log("[QuestOSCReceiver] Received /StartGame message!");
 
-        Instantiate(testPrefab);
+        GameObject sphere = Instantiate(testPrefab);
+        sphere.GetComponent<Renderer>().material.color = Color.red;
 
-        // Example action: start game logic
-        // You can replace this with your own functionality
         Debug.Log("[QuestOSCReceiver] Starting game now!");
     }
 
     void OnAnyMessage(OSCMessage message)
     {
-        // Useful for debugging unexpected messages
         Debug.Log($"[QuestOSCReceiver] Message received: {message.Address} | {message.Values[0]}");
+    }
+
+    // Public method to send OSC message
+    public void SendOSCMessage(string address, string content)
+    {
+        if (transmitter == null)
+        {
+            Debug.LogWarning("Transmitter not initialized.");
+            return;
+        }
+
+        var message = new OSCMessage(address);
+        message.AddValue(OSCValue.String(content));
+        transmitter.Send(message);
+
+        Debug.Log($"[QuestOSCClient] Sent: {address} | {content}");
     }
 }

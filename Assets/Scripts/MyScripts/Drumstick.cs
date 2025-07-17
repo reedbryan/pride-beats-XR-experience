@@ -66,7 +66,7 @@ public class Drumstick : MonoBehaviour
             foreach (Transform child in notes.transform)
             {
                 float distance = Vector3.Distance(child.position, drum.transform.position);
-                if (distance <= 2f)
+                if (distance <= 1f)
                 {
                     return true;
                 }

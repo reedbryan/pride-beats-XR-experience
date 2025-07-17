@@ -21,28 +21,21 @@ public class QuestOSCClient : MonoBehaviour
         // Setup OSC receiver
         receiver = gameObject.AddComponent<OSCReceiver>();
         receiver.LocalPort = listenPort;
-
         receiver.Bind("/StartGame", OnStartGame);
-        receiver.Bind("/", OnAnyMessage);
 
-        Debug.Log($"[QuestOSCReceiver] Listening for OSC on port {listenPort}...");
 
         // Setup OSC transmitter
         transmitter = gameObject.AddComponent<OSCTransmitter>();
         transmitter.RemoteHost = remoteHost;
         transmitter.RemotePort = remotePort;
 
-        InvokeRepeating(nameof(SendTestMessage), 0f, 1f);
-
-        Debug.Log($"[QuestOSCTransmitter] Ready to send to {remoteHost}:{remotePort}");
+        //InvokeRepeating(nameof(SendTestMessage), 0f, 1f);
     }
 
     void SendTestMessage()
     {
         SendOSCMessage("/PlayerAction", "WE HAVE MADE CONTACT");
     }
-
-
 
     void OnStartGame(OSCMessage message)
     {
@@ -52,11 +45,6 @@ public class QuestOSCClient : MonoBehaviour
         sphere.GetComponent<Renderer>().material.color = Color.red;
 
         Debug.Log("[QuestOSCReceiver] Starting game now!");
-    }
-
-    void OnAnyMessage(OSCMessage message)
-    {
-        Debug.Log($"[QuestOSCReceiver] Message received: {message.Address} | {message.Values[0]}");
     }
 
     // Public method to send OSC message

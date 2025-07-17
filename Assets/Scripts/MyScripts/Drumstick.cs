@@ -19,6 +19,10 @@ public class Drumstick : MonoBehaviour
     private ParticleSystem blue;
     private ParticleSystem purple;
 
+    private DrumEffects _drumEffects;
+    private QuestOSCClient _OSCtransmitter;
+
+
     void Awake()
     {
         // ---- Renderer ----------------------------------------------------
@@ -49,9 +53,18 @@ public class Drumstick : MonoBehaviour
         // Only react to objects tagged "Drum"
         if (!other.CompareTag("Drum")) return;
 
+        // Get OSC component
+        if (_OSCtransmitter == null) _OSCtransmitter = other.gameObject.GetComponent<QuestOSCClient>();
+
+        // check for beat sync
         if (IsAnyCylinderNoteNearby())
         {
             StartCoroutine(FlashDrum());
+            _OSCtransmitter.SendOSCMessage("/DrumHit", "Drum hit in sync");
+        }
+        else
+        {
+            _OSCtransmitter.SendOSCMessage("/DrumHit", "Drum hit out of sync");
         }
     }
 

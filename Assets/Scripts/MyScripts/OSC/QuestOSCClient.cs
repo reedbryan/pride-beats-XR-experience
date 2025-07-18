@@ -47,7 +47,6 @@ public class QuestOSCClient : MonoBehaviour
         Debug.Log("[QuestOSCReceiver] Starting game now!");
     }
 
-    // Public method to send OSC message
     public void SendOSCMessage(string address, string content)
     {
         if (transmitter == null)
@@ -57,7 +56,9 @@ public class QuestOSCClient : MonoBehaviour
         }
 
         var message = new OSCMessage(address);
-        message.AddValue(OSCValue.String(content + " from: " + IP.LocalIPAddress));
+        message.AddValue(OSCValue.String(content));
+        message.AddValue(OSCValue.String(IP.LocalIPAddress));
         transmitter.Send(message);
     }
+
 }

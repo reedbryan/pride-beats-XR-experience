@@ -54,7 +54,7 @@ public class Drumstick : MonoBehaviour
         if (!other.CompareTag("Drum")) return;
 
         // Get OSC component
-        if (_OSCtransmitter == null) _OSCtransmitter = other.gameObject.GetComponent<QuestOSCClient>();
+        if (_OSCtransmitter == null) _OSCtransmitter = other.gameObject.GetComponentInChildren<QuestOSCClient>();
 
         // check for beat sync
         if (IsAnyCylinderNoteNearby())

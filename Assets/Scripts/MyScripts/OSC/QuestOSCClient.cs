@@ -8,7 +8,7 @@ public class QuestOSCClient : MonoBehaviour
     public int listenPort = 8100;
 
     [Tooltip("Remote IP to send OSC messages to (e.g., Game Manager PC).")]
-    public string remoteHost = "192.168.68.61"; // Replace with your PC's IP
+    public string remoteHost; // Replace with your PC's IP
     public int remotePort = 8000;               // Replace with your PC's listening port
 
     public GameObject testPrefab;
@@ -57,9 +57,7 @@ public class QuestOSCClient : MonoBehaviour
         }
 
         var message = new OSCMessage(address);
-        message.AddValue(OSCValue.String(content));
+        message.AddValue(OSCValue.String(content + " from: " + IP.LocalIPAddress));
         transmitter.Send(message);
-
-        Debug.Log($"[QuestOSCClient] Sent: {address} | {content}");
     }
 }

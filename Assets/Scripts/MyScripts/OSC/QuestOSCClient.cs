@@ -39,12 +39,8 @@ public class QuestOSCClient : MonoBehaviour
 
     void OnStartGame(OSCMessage message)
     {
-        Debug.Log("[QuestOSCReceiver] Received /StartGame message!");
-
         GameObject sphere = Instantiate(testPrefab);
         sphere.GetComponent<Renderer>().material.color = Color.red;
-
-        Debug.Log("[QuestOSCReceiver] Starting game now!");
     }
 
     public void SendOSCMessage(string address, string content)

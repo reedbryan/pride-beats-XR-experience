@@ -12,6 +12,7 @@ public class QuestOSCClient : MonoBehaviour
     public int remotePort = 8000;               // Replace with your PC's listening port
 
     public GameObject testPrefab;
+    public NotesManager notesManager;
 
     private OSCReceiver receiver;
     private OSCTransmitter transmitter;
@@ -41,6 +42,8 @@ public class QuestOSCClient : MonoBehaviour
     {
         GameObject sphere = Instantiate(testPrefab);
         sphere.GetComponent<Renderer>().material.color = Color.red;
+
+        notesManager.startGame();
     }
 
     public void SendOSCMessage(string address, string content)

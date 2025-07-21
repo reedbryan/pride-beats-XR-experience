@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 8896138391460165963}
   - component: {fileID: 6511479775902529102}
   - component: {fileID: 873640992820249587}
-  - component: {fileID: 2255139944120038773}
   - component: {fileID: 5342105569907728602}
+  - component: {fileID: 4055538518392846349}
   m_Layer: 0
   m_Name: Note
   m_TagString: Untagged
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -0.109999985, z: -0.19503678}
-  m_LocalScale: {x: 6.702593, y: -0.020086, z: 0.0036246802}
+  m_LocalScale: {x: 0.6, y: 0.03, z: 0.6}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -85,29 +85,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &2255139944120038773
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1607637352115490123}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!114 &5342105569907728602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,4 +97,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8e7a944012d9d64692c4746fa47c9d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
+  target: {fileID: 0}
+  speed: 3
+  distanceToDespawn: 2
+--- !u!114 &4055538518392846349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1607637352115490123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 608f3e73a62898748b85bebd9340bb02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inSync: 0

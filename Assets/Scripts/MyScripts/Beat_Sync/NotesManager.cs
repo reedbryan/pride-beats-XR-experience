@@ -7,19 +7,23 @@ public class NotesManager : MonoBehaviour
     public GameObject NotePrefab;
     public GameObject NoteSpawningAnchor;
    
-    // A sequence of integers representing the pattern in which the notes will appear
-    public List<int> noteIntervals = new List<int>();
+    // A sequence of floats representing the pattern in which the notes will appear
+    public List<float> noteIntervals = new List<float>();
+
+    // List of all notes CURRENTLY in the scene
+    public List<NoteID> CurrentNotes;
 
     // Number of notes in the noteIntervals list
-    public int noteCount;
+    private int noteCount;
     private int _noteIndex = 0;
 
     // Flag to prevent multiple overlapping coroutines
-    private bool isSpawning = false;
+    [SerializeField] private bool isSpawning = false;
 
     void Awake()
     {
         noteCount = noteIntervals.Count;
+        startGame();
     }
 
     // Start the routine which spawns the notes, based on the noteIntervals list
@@ -44,7 +48,7 @@ public class NotesManager : MonoBehaviour
             SpawnNote();
 
             // Get the interval of the current note
-            int waitTime = noteIntervals[_noteIndex];
+            float waitTime = noteIntervals[_noteIndex];
 
             // Wait for the specified time before spawning the next note
             yield return new WaitForSeconds(waitTime);
@@ -59,6 +63,38 @@ public class NotesManager : MonoBehaviour
 
     private void SpawnNote()
     {
-        Instantiate(NotePrefab, NoteSpawningAnchor.transform.position, NoteSpawningAnchor.transform.rotation);
+        Debug.Log("Spawning Note #" + _noteIndex);
+
+        // Spawn the new note, at the anchor position, facing the same as the drum
+        GameObject newNote = Instantiate(NotePrefab, 
+                                        NoteSpawningAnchor.transform.position, 
+                                        NoteSpawningAnchor.GetComponent<PlaceAnchor>().drumIntersect.rotation);
+
+        // Assign movement target
+        newNote.GetComponent<NoteMover>().target = NoteSpawningAnchor.GetComponent<PlaceAnchor>().drumIntersect;
+
+        // Add to notes list
+        CurrentNotes.Add(newNote.GetComponent<NoteID>());
+    }
+
+    // Listen for dead notes - - - - - - - - - - - - - - - - - - - 
+    void OnEnable()
+    {
+        NoteMover.OnNoteDone += KillNote;
+    }
+    void OnDisable()
+    {
+        NoteMover.OnNoteDone -= KillNote;
+    }
+    void KillNote (NoteID note)
+    {
+        // Remove from the current notes list
+        if (CurrentNotes.Contains(note))
+        {
+            CurrentNotes.Remove(note);
+        }
+
+        // Destroy the note GameObject
+        Destroy(note.gameObject);
     }
 }

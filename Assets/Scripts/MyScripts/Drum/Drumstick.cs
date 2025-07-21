@@ -10,6 +10,8 @@ public class Drumstick : MonoBehaviour
     [Tooltip("Drum GameObject that will flash and hold the particle system.")]
     public GameObject drum;
 
+    public NotesManager notesManager;
+
     private Renderer drumRenderer;
     private Color _originalColor;
     private ParticleSystem red;
@@ -48,6 +50,11 @@ public class Drumstick : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        Debug.Log(CheckForNoteInSync());
+    }
+
     void OnTriggerEnter(Collider other)
     {
         // Only react to objects tagged "Drum"
@@ -57,7 +64,7 @@ public class Drumstick : MonoBehaviour
         if (_OSCtransmitter == null) _OSCtransmitter = other.gameObject.GetComponentInChildren<QuestOSCClient>();
 
         // check for beat sync
-        if (IsAnyCylinderNoteNearby())
+        if (CheckForNoteInSync())
         {
             StartCoroutine(FlashDrum());
             _OSCtransmitter.SendOSCMessage("/DrumHit", "Drum hit in sync");
@@ -68,24 +75,12 @@ public class Drumstick : MonoBehaviour
         }
     }
 
-    bool IsAnyCylinderNoteNearby()
+    bool CheckForNoteInSync()
     {
-        // Get all active Notes prefabs in the scene
-        GameObject[] notesPrefabs = GameObject.FindGameObjectsWithTag("Notes");
-
-        foreach (GameObject notes in notesPrefabs)
+        foreach (NoteID note in notesManager.CurrentNotes)
         {
-            // Check each child of the Notes object
-            foreach (Transform child in notes.transform)
-            {
-                float distance = Vector3.Distance(child.position, drum.transform.position);
-                if (distance <= 1f)
-                {
-                    return true;
-                }
-            }
+            if (note.inSync) return true;
         }
-
         return false;
     }
 

@@ -12,7 +12,6 @@ public class Drumstick : MonoBehaviour
 
     public NotesManager notesManager;
 
-    private Renderer drumRenderer;
     private Color _originalColor;
     private ParticleSystem red;
     private ParticleSystem orange;
@@ -24,31 +23,6 @@ public class Drumstick : MonoBehaviour
     private DrumEffects _drumEffects;
     private QuestOSCClient _OSCtransmitter;
 
-
-    void Awake()
-    {
-        // ---- Renderer ----------------------------------------------------
-        drumRenderer = drum.GetComponent<Renderer>() ?? drum.GetComponentInChildren<Renderer>();
-        if (drumRenderer == null)
-        {
-            Debug.LogError("Drumstick: No Renderer found on the drum or its children.");
-            enabled = false;
-            return;
-        }
-        _originalColor = drumRenderer.material.color;
-
-        // ---- Particle System --------------------------------------------
-        red = drum.transform.Find("Red").GetComponent<ParticleSystem>();
-        orange = drum.transform.Find("Orange").GetComponent<ParticleSystem>();
-        yellow = drum.transform.Find("Yellow").GetComponent<ParticleSystem>();
-        green = drum.transform.Find("Green").GetComponent<ParticleSystem>();
-        blue = drum.transform.Find("Blue").GetComponent<ParticleSystem>();
-        purple = drum.transform.Find("Purple").GetComponent<ParticleSystem>();
-        if (red == null || orange == null || yellow == null || green == null || blue == null || purple == null)
-        {
-            Debug.LogWarning("Drumstick: One or more ParticleSystems not found under the drum.");
-        }
-    }
 
     void Update()
     {
@@ -66,16 +40,18 @@ public class Drumstick : MonoBehaviour
         // check for beat sync
         if (CheckForNoteInSync())
         {
-            StartCoroutine(FlashDrum());
+            //StartCoroutine(FlashDrum());
+            other.gameObject.GetComponent<DrumEffects>().DrumHitInSync();
             _OSCtransmitter.SendOSCMessage("/DrumHit", "Drum hit in sync");
         }
         else
         {
+            other.gameObject.GetComponent<DrumEffects>().DrumHitOutSync();
             _OSCtransmitter.SendOSCMessage("/DrumHit", "Drum hit out of sync");
         }
     }
 
-    bool CheckForNoteInSync()
+    private bool CheckForNoteInSync()
     {
         foreach (NoteID note in notesManager.CurrentNotes)
         {
@@ -84,21 +60,5 @@ public class Drumstick : MonoBehaviour
         return false;
     }
 
-    IEnumerator FlashDrum()
-    {
-        // Colour + scale feedback
-        drumRenderer.material.color = Color.red;
 
-        // One‑shot particle burst
-        red?.Emit(1);
-        orange?.Emit(1);
-        yellow?.Emit(1);
-        green?.Emit(1);
-        blue?.Emit(1);
-        purple?.Emit(1);
-
-        yield return new WaitForSeconds(flashDuration);
-
-        drumRenderer.material.color = _originalColor;
-    }
 }

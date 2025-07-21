@@ -7,32 +7,58 @@ public class DrumEffects : MonoBehaviour
     [Tooltip("How long the drum stays red (seconds).")]
     public float flashDuration = 0.12f;
     
+    private AudioSource _hitAudio;
     private Renderer   _drumRenderer;
     private Color      _originalColor;
-    private ParticleSystem _hitParticles;
+
+    [SerializeField] private ParticleSystem red;
+    [SerializeField] private ParticleSystem orange;
+    [SerializeField] private ParticleSystem yellow;
+    [SerializeField] private ParticleSystem green;
+    [SerializeField] private ParticleSystem blue;
+    [SerializeField] private ParticleSystem purple;
 
     void Awake()
     {
         _drumRenderer = GetComponent<Renderer>();
-        _hitParticles = GetComponentInChildren<ParticleSystem>();
+        _hitAudio = GetComponentInChildren<AudioSource>();
+
         _originalColor = _drumRenderer.material.color;
     }
-    
-    public IEnumerator FlashDrum()
-    {
-        // Colour + scale feedback
-        _drumRenderer.material.color = Color.red;
-        transform.localScale *= 1.1f;
 
+    public void DrumHitInSync()
+    {
+        StartCoroutine(InSyncEffects());
+    }
+
+    public void DrumHitOutSync()
+    {
+        StartCoroutine(OutSyncEffects());
+    }
+
+    IEnumerator InSyncEffects()
+    {
         // One‑shot particle burst
-        if (_hitParticles != null)
-        {
-            _hitParticles.Emit(1);   // single particle
-        }
+        red?.Emit(1);
+        orange?.Emit(1);
+        yellow?.Emit(1);
+        green?.Emit(1);
+        blue?.Emit(1);
+        purple?.Emit(1);
+
+        _hitAudio.Play();
 
         yield return new WaitForSeconds(flashDuration);
+    }
 
-        _drumRenderer.material.color = _originalColor;
-        transform.localScale /= 1.1f;
+    IEnumerator OutSyncEffects()
+    {
+        red?.Emit(1);
+        orange?.Emit(1);
+        yellow?.Emit(1);
+
+        _hitAudio.Play();
+        
+        yield return new WaitForSeconds(flashDuration);
     }
 }

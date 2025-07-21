@@ -23,6 +23,7 @@ public class NotesManager : MonoBehaviour
     void Awake()
     {
         noteCount = noteIntervals.Count;
+        startGame();
     }
 
     // Start the routine which spawns the notes, based on the noteIntervals list
@@ -39,6 +40,8 @@ public class NotesManager : MonoBehaviour
     IEnumerator SpawnNotes()
     {
         isSpawning = true;
+
+        Debug.Log("STARTED COROUTINE");
 
         // Loop through each note interval and wait accordingly
         while (_noteIndex < noteCount)

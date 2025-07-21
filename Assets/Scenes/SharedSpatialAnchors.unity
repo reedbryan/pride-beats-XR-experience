@@ -10411,6 +10411,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flashDuration: 0.12
   drum: {fileID: 1825987321}
+  notesManager: {fileID: 1130647415}
 --- !u!136 &733811848
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -15831,6 +15832,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flashDuration: 0.12
   drum: {fileID: 1825987321}
+  notesManager: {fileID: 1130647415}
 --- !u!1 &1194575582
 GameObject:
   m_ObjectHideFlags: 0

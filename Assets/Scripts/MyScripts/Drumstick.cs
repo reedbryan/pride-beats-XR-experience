@@ -93,7 +93,6 @@ public class Drumstick : MonoBehaviour
     {
         // Colour + scale feedback
         drumRenderer.material.color = Color.red;
-        transform.localScale *= 1.1f;
 
         // One‑shot particle burst
         red?.Emit(1);
@@ -106,6 +105,5 @@ public class Drumstick : MonoBehaviour
         yield return new WaitForSeconds(flashDuration);
 
         drumRenderer.material.color = _originalColor;
-        transform.localScale /= 1.1f;
     }
 }

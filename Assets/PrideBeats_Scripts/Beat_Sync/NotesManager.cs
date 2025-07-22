@@ -14,7 +14,6 @@ public class NotesManager : MonoBehaviour
     public List<NoteID> CurrentNotes;
 
     // Number of notes in the noteIntervals list
-    private int noteCount;
     private int _noteIndex = 0;
 
     // Flag to prevent multiple overlapping coroutines
@@ -22,17 +21,25 @@ public class NotesManager : MonoBehaviour
 
     void Awake()
     {
-        noteCount = noteIntervals.Count;
-        startGame();
+        //startGame(noteIntervals);
     }
 
     // Start the routine which spawns the notes, based on the noteIntervals list
     // - is activated via OSC, via the PC build, which transmits to all headsets
-    public void startGame()
+    public void startGame(List<float> sequence)
     {
         if (!isSpawning)
         {
-            _noteIndex = 0;  // Reset index for replayability
+            // Fill the note intervals list with the passed sequence
+            noteIntervals = sequence;
+            
+            // Reset index
+            _noteIndex = 0;
+
+            // Clear the NoteID list (used for syncing detection)
+            CurrentNotes.Clear();
+            
+            // Start the note spawning routine
             StartCoroutine(SpawnNotes());
         }
     }
@@ -44,7 +51,7 @@ public class NotesManager : MonoBehaviour
         Debug.Log("STARTED COROUTINE");
 
         // Loop through each note interval and wait accordingly
-        while (_noteIndex < noteCount)
+        while (_noteIndex < noteIntervals.Count)
         {
             // TODO: spawn the note here
             SpawnNote();

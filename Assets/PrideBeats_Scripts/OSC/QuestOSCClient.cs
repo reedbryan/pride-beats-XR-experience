@@ -1,5 +1,6 @@
 using UnityEngine;
 using extOSC;
+using System.Collections.Generic;
 
 public class QuestOSCClient : MonoBehaviour
 {
@@ -43,7 +44,20 @@ public class QuestOSCClient : MonoBehaviour
         GameObject sphere = Instantiate(testPrefab);
         sphere.GetComponent<Renderer>().material.color = Color.red;
 
-        notesManager.startGame();
+        // Extract floats from the OSC message
+        List<float> receivedSequence = new List<float>();
+        foreach (var val in message.Values)
+        {
+            if (val.Type == OSCValueType.Float)
+            {
+                receivedSequence.Add(val.FloatValue);
+            }
+        }
+
+        Debug.Log("[Quest] Received startGame sequence with " + receivedSequence.Count + " intervals");
+
+        // Start the game with the received sequence
+        notesManager.startGame(receivedSequence);
     }
 
     public void SendOSCMessage(string address, string content)

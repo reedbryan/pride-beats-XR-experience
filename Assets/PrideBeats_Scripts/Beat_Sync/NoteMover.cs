@@ -13,39 +13,41 @@ public class NoteMover : MonoBehaviour
     // The distance after the note passes over the drum before it despawns
     public float distanceToDespawn;
 
-    private NoteID ID;
-    private Vector3 destination;
-    private bool isMoving = true;
+    // Movement mechanics
+    [SerializeField] private float _smoothTime = 0.1f;
+    private Vector3 velocity = Vector3.zero;
+
+    private NoteID _ID;
+    private Vector3 _destination;
+    private bool _isMoving = true;
 
     void Start()
-    {
-        ID = GetComponent<NoteID>();
+    {        
+        _ID = GetComponent<NoteID>();
         
         if (target != null)
         {
             // Calculate the direction from this object to the target
             Vector3 toTarget = (target.position - transform.position).normalized;
 
-            // Set the destination to 5 units beyond the target in that direction
-            destination = target.position + toTarget * distanceToDespawn;
+            // Set the _destination to 5 units beyond the target in that direction
+            _destination = target.position + toTarget * distanceToDespawn;
         }
     }
+
 
     void Update()
     {
         // Move
-        if (isMoving)
+        if (_isMoving)
         {
-            transform.position = Vector3.MoveTowards(
-                transform.position,
-                destination,
-                speed * Time.deltaTime
-            );
+            transform.position = Vector3.SmoothDamp(transform.position, _destination, ref velocity, _smoothTime);
 
-            // Check if we've reached the destination
-            if (Vector3.Distance(transform.position, destination) < 0.01f)
+
+            // Check if we've reached the _destination
+            if (Vector3.Distance(transform.position, _destination) < 0.1f)
             {
-                isMoving = false;
+                _isMoving = false;
                 Done();
             }
         }
@@ -54,7 +56,7 @@ public class NoteMover : MonoBehaviour
         if (target != null)
         {
             float distanceToTarget = Vector3.Distance(transform.position, target.position);
-            ID.inSync = distanceToTarget <= 1f;
+            _ID.inSync = distanceToTarget <= 1f;
         }
     }
 
@@ -64,7 +66,7 @@ public class NoteMover : MonoBehaviour
     // Note is done the track it was on
     private void Done()
     {
-        Debug.Log("Note reached destination — firing death event.");
-        OnNoteDone?.Invoke(ID);
+        Debug.Log("Note reached _destination — firing death event.");
+        OnNoteDone?.Invoke(_ID);
     }
 }

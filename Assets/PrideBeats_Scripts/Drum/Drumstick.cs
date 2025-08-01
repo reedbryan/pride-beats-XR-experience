@@ -26,7 +26,7 @@ public class Drumstick : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(CheckForNoteInSync());
+        // Debug.Log(CheckForNoteInSync());
     }
 
     void OnTriggerEnter(Collider other)
@@ -38,7 +38,7 @@ public class Drumstick : MonoBehaviour
         if (_OSCtransmitter == null) _OSCtransmitter = other.gameObject.GetComponentInChildren<QuestOSCClient>();
 
         // check for beat sync
-        if (CheckForNoteInSync())
+        if (notesManager.CheckForNoteInSync())
         {
             //StartCoroutine(FlashDrum());
             other.gameObject.GetComponent<DrumEffects>().DrumHitInSync();
@@ -50,15 +50,4 @@ public class Drumstick : MonoBehaviour
             _OSCtransmitter.SendOSCMessage("/DrumHit", "Drum hit out of sync");
         }
     }
-
-    private bool CheckForNoteInSync()
-    {
-        foreach (NoteID note in notesManager.CurrentNotes)
-        {
-            if (note.inSync) return true;
-        }
-        return false;
-    }
-
-
 }

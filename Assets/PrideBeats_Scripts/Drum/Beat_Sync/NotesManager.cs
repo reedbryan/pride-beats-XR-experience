@@ -89,11 +89,11 @@ public class NotesManager : MonoBehaviour
     // Listen for dead notes - - - - - - - - - - - - - - - - - - - 
     void OnEnable()
     {
-        NoteMover.OnNoteDone += KillNote;
+        NoteEffects.OnNoteDone += KillNote;
     }
     void OnDisable()
     {
-        NoteMover.OnNoteDone -= KillNote;
+        NoteEffects.OnNoteDone -= KillNote;
     }
     void KillNote (NoteID note)
     {
@@ -105,5 +105,18 @@ public class NotesManager : MonoBehaviour
 
         // Destroy the note GameObject
         Destroy(note.gameObject);
+    }
+
+    // Check that there is a note close enough to the drum to count as "in sync"
+    public bool CheckForNoteInSync()
+    {
+        foreach (NoteID note in CurrentNotes)
+        {            
+            if (note.inSync) {
+                note.gameObject.GetComponent<NoteEffects>().GotHit();
+                return true;
+            }
+        }
+        return false;
     }
 }

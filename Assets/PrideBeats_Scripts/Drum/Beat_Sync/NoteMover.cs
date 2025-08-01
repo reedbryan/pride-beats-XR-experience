@@ -48,7 +48,7 @@ public class NoteMover : MonoBehaviour
             if (Vector3.Distance(transform.position, _destination) < 0.1f)
             {
                 _isMoving = false;
-                Done();
+                GetComponent<NoteEffects>().DoneTrack();
             }
         }
 
@@ -58,15 +58,5 @@ public class NoteMover : MonoBehaviour
             float distanceToTarget = Vector3.Distance(transform.position, target.position);
             _ID.inSync = distanceToTarget <= 1f;
         }
-    }
-
-
-    public delegate void NoteDone(NoteID note);
-    public static event NoteDone OnNoteDone;
-    // Note is done the track it was on
-    private void Done()
-    {
-        Debug.Log("Note reached _destination — firing death event.");
-        OnNoteDone?.Invoke(_ID);
     }
 }

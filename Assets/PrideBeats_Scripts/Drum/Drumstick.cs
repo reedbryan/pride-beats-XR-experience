@@ -7,6 +7,9 @@ public class Drumstick : MonoBehaviour
     [Tooltip("How long the drum stays red (seconds).")]
     public float flashDuration = 0.12f;
 
+    [Tooltip("Cooldown between hits (seconds).")]
+    public float cooldownDuration = 0.2f;
+
     [Tooltip("Drum GameObject that will flash and hold the particle system.")]
     public GameObject drum;
 
@@ -23,24 +26,25 @@ public class Drumstick : MonoBehaviour
     private DrumEffects _drumEffects;
     private QuestOSCClient _OSCtransmitter;
 
-
-    void Update()
-    {
-        // Debug.Log(CheckForNoteInSync());
-    }
+    private bool canHit = true;
 
     void OnTriggerEnter(Collider other)
     {
+        if (!canHit) return;
+
         // Only react to objects tagged "Drum"
         if (!other.CompareTag("Drum")) return;
 
+        canHit = false; // start cooldown
+        StartCoroutine(HitCooldown());
+
         // Get OSC component
-        if (_OSCtransmitter == null) _OSCtransmitter = other.gameObject.GetComponentInChildren<QuestOSCClient>();
+        if (_OSCtransmitter == null)
+            _OSCtransmitter = other.gameObject.GetComponentInChildren<QuestOSCClient>();
 
         // check for beat sync
         if (notesManager.CheckForNoteInSync())
         {
-            //StartCoroutine(FlashDrum());
             other.gameObject.GetComponent<DrumEffects>().DrumHitInSync();
             _OSCtransmitter.SendOSCMessage("/DrumHit", "Drum hit in sync");
         }
@@ -49,5 +53,11 @@ public class Drumstick : MonoBehaviour
             other.gameObject.GetComponent<DrumEffects>().DrumHitOutSync();
             _OSCtransmitter.SendOSCMessage("/DrumHit", "Drum hit out of sync");
         }
+    }
+
+    IEnumerator HitCooldown()
+    {
+        yield return new WaitForSeconds(cooldownDuration);
+        canHit = true;
     }
 }

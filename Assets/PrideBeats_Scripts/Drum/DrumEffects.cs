@@ -26,14 +26,19 @@ public class DrumEffects : MonoBehaviour
         _originalColor = _drumRenderer.material.color;
     }
 
-    public void DrumHitInSync()
+    // Event listening
+    void OnEnable()
     {
-        StartCoroutine(InSyncEffects());
+        Drumstick.OnDrumHit += TriggerEffects;
     }
-
-    public void DrumHitOutSync()
+    void OnDisable()
     {
-        StartCoroutine(OutSyncEffects());
+        Drumstick.OnDrumHit -= TriggerEffects;
+    }
+    public void TriggerEffects(bool inSync)
+    {
+        if (inSync) {StartCoroutine(InSyncEffects()); }
+        else { StartCoroutine(OutSyncEffects()); }
     }
 
     IEnumerator InSyncEffects()

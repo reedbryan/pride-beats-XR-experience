@@ -15,44 +15,26 @@ public class Drumstick : MonoBehaviour
 
     public NotesManager notesManager;
 
-    private Color _originalColor;
-    private ParticleSystem red;
-    private ParticleSystem orange;
-    private ParticleSystem yellow;
-    private ParticleSystem green;
-    private ParticleSystem blue;
-    private ParticleSystem purple;
-
-    private DrumEffects _drumEffects;
-    private QuestOSCClient _OSCtransmitter;
-
     private bool canHit = true;
+
+    // 🔹 Declare a global event for drum hits
+    public delegate void DrumHitEvent(bool inSync);
+    public static event DrumHitEvent OnDrumHit;
 
     void OnTriggerEnter(Collider other)
     {
         if (!canHit) return;
-
-        // Only react to objects tagged "Drum"
         if (!other.CompareTag("Drum")) return;
 
-        canHit = false; // start cooldown
+        canHit = false;
         StartCoroutine(HitCooldown());
 
-        // Get OSC component
-        if (_OSCtransmitter == null)
-            _OSCtransmitter = other.gameObject.GetComponentInChildren<QuestOSCClient>();
+        bool inSync = notesManager.CheckForNoteInSync();
 
-        // check for beat sync
-        if (notesManager.CheckForNoteInSync())
-        {
-            other.gameObject.GetComponent<DrumEffects>().DrumHitInSync();
-            _OSCtransmitter.SendOSCMessage("/DrumHit", "Drum hit in sync");
-        }
-        else
-        {
-            other.gameObject.GetComponent<DrumEffects>().DrumHitOutSync();
-            _OSCtransmitter.SendOSCMessage("/DrumHit", "Drum hit out of sync");
-        }
+        // 🔹 Fire the event instead of calling other scripts directly
+        OnDrumHit?.Invoke(inSync);
+
+        Debug.Log($"[Drumstick] Drum hit. In sync? {inSync}");
     }
 
     IEnumerator HitCooldown()

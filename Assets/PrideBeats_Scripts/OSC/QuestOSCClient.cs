@@ -24,6 +24,7 @@ public class QuestOSCClient : MonoBehaviour
         receiver = gameObject.AddComponent<OSCReceiver>();
         receiver.LocalPort = listenPort;
         receiver.Bind("/StartGame", OnStartGame);
+        //receiver.Bind("/JoinGame", OnJoinGame);
 
         // Setup OSC transmitter (remoteHost will be updated when StartGame is received)
         transmitter = gameObject.AddComponent<OSCTransmitter>();
@@ -33,9 +34,31 @@ public class QuestOSCClient : MonoBehaviour
         //InvokeRepeating(nameof(SendTestMessage), 0f, 1f);
     }
 
-    void SendTestMessage()
+    void OnEnable()
     {
-        SendOSCMessage("/PlayerAction", "WE HAVE MADE CONTACT");
+        Drumstick.OnDrumHit += HandleDrumHit;
+    }
+
+    void OnDisable()
+    {
+        Drumstick.OnDrumHit -= HandleDrumHit;
+    }
+
+    void HandleDrumHit(bool inSync)
+    {
+        if (inSync)
+        {
+            SendOSCMessage("/DrumHit", "Drum hit in sync");            
+        }
+        else
+        {
+            SendOSCMessage("/DrumHit", "Drum hit out of sync");  
+        }
+    }
+
+    void OnJoinGame()
+    {
+
     }
 
     void OnStartGame(OSCMessage message)

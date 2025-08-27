@@ -47,11 +47,9 @@ public class NoteMover : MonoBehaviour
     public void GotHit()
     {
         Debug.Log("Got hit — firing death event.");
-        OnNoteDone?.Invoke(_ID);
+        OnNoteDone?.Invoke(_ID); // Note is destroyed from here
 
         GetComponent<NoteEffects>().StartDeathEffects();
-
-        Destroy(gameObject); // Remove the note object
     }
     
 

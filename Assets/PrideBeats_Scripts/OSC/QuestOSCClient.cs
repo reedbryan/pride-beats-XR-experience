@@ -9,8 +9,8 @@ public class QuestOSCClient : MonoBehaviour
     public int listenPort = 8100;
 
     [Tooltip("Remote IP to send OSC messages to (e.g., Game Manager PC).")]
-    public string remoteHost; // Replace with your PC's IP
-    public int remotePort = 8000;               // Replace with your PC's listening port
+    public string remoteHost; 
+    public int remotePort = 8000;
 
     public GameObject testPrefab;
     public NotesManager notesManager;
@@ -25,10 +25,9 @@ public class QuestOSCClient : MonoBehaviour
         receiver.LocalPort = listenPort;
         receiver.Bind("/StartGame", OnStartGame);
 
-
-        // Setup OSC transmitter
+        // Setup OSC transmitter (remoteHost will be updated when StartGame is received)
         transmitter = gameObject.AddComponent<OSCTransmitter>();
-        transmitter.RemoteHost = remoteHost;
+        transmitter.RemoteHost = remoteHost; // Initial fallback
         transmitter.RemotePort = remotePort;
 
         //InvokeRepeating(nameof(SendTestMessage), 0f, 1f);
@@ -44,17 +43,34 @@ public class QuestOSCClient : MonoBehaviour
         GameObject sphere = Instantiate(testPrefab);
         sphere.GetComponent<Renderer>().material.color = Color.red;
 
-        // Extract floats from the OSC message
+        // Extract floats and string (IP) from the OSC message
         List<float> receivedSequence = new List<float>();
+        string managerIP = null;
+
         foreach (var val in message.Values)
         {
             if (val.Type == OSCValueType.Float)
             {
                 receivedSequence.Add(val.FloatValue);
             }
+            else if (val.Type == OSCValueType.String)
+            {
+                managerIP = val.StringValue;
+            }
         }
 
         Debug.Log("[Quest] Received startGame sequence with " + receivedSequence.Count + " intervals");
+
+        // Update transmitter RemoteHost if IP was received
+        if (!string.IsNullOrEmpty(managerIP))
+        {
+            transmitter.RemoteHost = managerIP;
+            Debug.Log("[Quest] Updated RemoteHost to " + managerIP);
+        }
+        else
+        {
+            Debug.LogWarning("[Quest] No IP address received in /StartGame message.");
+        }
 
         // Start the game with the received sequence
         notesManager.startGame(receivedSequence);
@@ -70,8 +86,7 @@ public class QuestOSCClient : MonoBehaviour
 
         var message = new OSCMessage(address);
         message.AddValue(OSCValue.String(content));
-        message.AddValue(OSCValue.String(IP.LocalIPAddress));
+        message.AddValue(OSCValue.String(IP.LocalIPAddress)); // Include Quest's own local IP
         transmitter.Send(message);
     }
-
 }

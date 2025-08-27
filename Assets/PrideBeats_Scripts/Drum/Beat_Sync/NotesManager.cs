@@ -89,11 +89,11 @@ public class NotesManager : MonoBehaviour
     // Listen for dead notes - - - - - - - - - - - - - - - - - - - 
     void OnEnable()
     {
-        NoteEffects.OnNoteDone += KillNote;
+        NoteMover.OnNoteDone += KillNote;
     }
     void OnDisable()
     {
-        NoteEffects.OnNoteDone -= KillNote;
+        NoteMover.OnNoteDone -= KillNote;
     }
     void KillNote (NoteID note)
     {
@@ -113,7 +113,7 @@ public class NotesManager : MonoBehaviour
         foreach (NoteID note in CurrentNotes)
         {            
             if (note.inSync) {
-                note.gameObject.GetComponent<NoteEffects>().GotHit();
+                note.gameObject.GetComponent<NoteMover>().GotHit();
                 return true;
             }
         }

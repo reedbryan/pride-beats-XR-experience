@@ -35,6 +35,25 @@ public class NoteMover : MonoBehaviour
         }
     }
 
+    public delegate void NoteDone(NoteID note);
+    public static event NoteDone OnNoteDone;
+
+    private void DoneTrack()
+    {
+        Debug.Log("Note reached _destination — firing death event.");
+        OnNoteDone?.Invoke(_ID);
+    }
+
+    public void GotHit()
+    {
+        Debug.Log("Got hit — firing death event.");
+        OnNoteDone?.Invoke(_ID);
+
+        GetComponent<NoteEffects>().StartDeathEffects();
+
+        Destroy(gameObject); // Remove the note object
+    }
+    
 
     void Update()
     {
@@ -43,12 +62,11 @@ public class NoteMover : MonoBehaviour
         {
             transform.position = Vector3.SmoothDamp(transform.position, _destination, ref velocity, _smoothTime);
 
-
             // Check if we've reached the _destination
             if (Vector3.Distance(transform.position, _destination) < 0.1f)
             {
                 _isMoving = false;
-                GetComponent<NoteEffects>().DoneTrack();
+                DoneTrack();
             }
         }
 

@@ -18,85 +18,44 @@ public class QuestOSCClient : MonoBehaviour
     private OSCReceiver receiver;
     private OSCTransmitter transmitter;
 
+    [Tooltip("Script that keeps track of the current state of the game")] // Not joined, joined but unCalibrated, joined and Calibrated, game on
+    public GameManager GM;
+
     void Start()
     {
         // Setup OSC receiver
         receiver = gameObject.AddComponent<OSCReceiver>();
         receiver.LocalPort = listenPort;
         receiver.Bind("/StartGame", OnStartGame);
-        //receiver.Bind("/JoinGame", OnJoinGame);
+        receiver.Bind("/EndGame", OnEndGame);
+        receiver.Bind("/SessionOpen", OnSessionOpen);
+        receiver.Bind("/Calibrate", OnCalibrate);
 
         // Setup OSC transmitter (remoteHost will be updated when StartGame is received)
         transmitter = gameObject.AddComponent<OSCTransmitter>();
         transmitter.RemoteHost = remoteHost; // Initial fallback
         transmitter.RemotePort = remotePort;
-
-        //InvokeRepeating(nameof(SendTestMessage), 0f, 1f);
     }
 
-    void OnEnable()
+    void OnSessionOpen(OSCMessage message)
     {
-        Drumstick.OnDrumHit += HandleDrumHit;
+        GM.JoinGame();
+        GetIPFromMessage(message);
     }
 
-    void OnDisable()
+    void OnCalibrate(OSCMessage message)
     {
-        Drumstick.OnDrumHit -= HandleDrumHit;
-    }
-
-    void HandleDrumHit(bool inSync)
-    {
-        if (inSync)
-        {
-            SendOSCMessage("/DrumHit", "Drum hit in sync");            
-        }
-        else
-        {
-            SendOSCMessage("/DrumHit", "Drum hit out of sync");  
-        }
-    }
-
-    void OnJoinGame()
-    {
-
+        GM.Calibrate();
     }
 
     void OnStartGame(OSCMessage message)
     {
-        GameObject sphere = Instantiate(testPrefab);
-        sphere.GetComponent<Renderer>().material.color = Color.red;
+        GM.StartGame(message);
+    }
 
-        // Extract floats and string (IP) from the OSC message
-        List<float> receivedSequence = new List<float>();
-        string managerIP = null;
-
-        foreach (var val in message.Values)
-        {
-            if (val.Type == OSCValueType.Float)
-            {
-                receivedSequence.Add(val.FloatValue);
-            }
-            else if (val.Type == OSCValueType.String)
-            {
-                managerIP = val.StringValue;
-            }
-        }
-
-        Debug.Log("[Quest] Received startGame sequence with " + receivedSequence.Count + " intervals");
-
-        // Update transmitter RemoteHost if IP was received
-        if (!string.IsNullOrEmpty(managerIP))
-        {
-            transmitter.RemoteHost = managerIP;
-            Debug.Log("[Quest] Updated RemoteHost to " + managerIP);
-        }
-        else
-        {
-            Debug.LogWarning("[Quest] No IP address received in /StartGame message.");
-        }
-
-        // Start the game with the received sequence
-        notesManager.startGame(receivedSequence);
+    void OnEndGame(OSCMessage message)
+    {
+        GM.EndGame();
     }
 
     public void SendOSCMessage(string address, string content)
@@ -111,5 +70,28 @@ public class QuestOSCClient : MonoBehaviour
         message.AddValue(OSCValue.String(content));
         message.AddValue(OSCValue.String(IP.LocalIPAddress)); // Include Quest's own local IP
         transmitter.Send(message);
+    }
+
+    private void GetIPFromMessage(OSCMessage message)
+    {
+        // Get IP of the PC (from the message)
+        string ip = null;
+        foreach (var val in message.Values)
+        {
+            if (val.Type == OSCValueType.String)
+            {
+                ip = val.StringValue;
+            }
+        }
+        // Assign that IP as the remote host
+        if (!string.IsNullOrEmpty(ip))
+        {
+            transmitter.RemoteHost = ip;
+            Debug.Log("[Quest] Updated RemoteHost to " + ip);
+        }
+        else
+        {
+            Debug.LogWarning("[Quest] No IP found in /JoinGame message.");
+        }        
     }
 }

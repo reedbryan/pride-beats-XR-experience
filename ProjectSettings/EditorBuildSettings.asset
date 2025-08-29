@@ -5,13 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Menu.unity
     guid: e26f81c2c09f1e3439e68ccaa68be16d
   - enabled: 1
     path: Assets/Scenes/SharedSpatialAnchors.unity
     guid: aa837f322991b3946908831c850aeb5e
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ColocationSessionGroups.unity
     guid: 51824fa595108234e8dda6af5bd9cad7
   m_configObjects:

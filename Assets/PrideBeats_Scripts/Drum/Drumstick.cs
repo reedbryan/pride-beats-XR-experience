@@ -17,7 +17,7 @@ public class Drumstick : MonoBehaviour
 
     private bool canHit = true;
 
-    // 🔹 Declare a global event for drum hits
+    // Declare a global event for drum hits
     public delegate void DrumHitEvent(bool inSync);
     public static event DrumHitEvent OnDrumHit;
 
@@ -31,7 +31,7 @@ public class Drumstick : MonoBehaviour
 
         bool inSync = notesManager.CheckForNoteInSync();
 
-        // 🔹 Fire the event instead of calling other scripts directly
+        // Fire the event instead of calling other scripts directly
         OnDrumHit?.Invoke(inSync);
 
         Debug.Log($"[Drumstick] Drum hit. In sync? {inSync}");

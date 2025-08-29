@@ -21,7 +21,7 @@ public class NotesManager : MonoBehaviour
 
     void Awake()
     {
-        startGame(noteIntervals);
+        //startGame(noteIntervals);
     }
 
     // Start the routine which spawns the notes, based on the noteIntervals list

@@ -1,6 +1,6 @@
 # Pride Beats XR Headset Experience
 
-> **XR experience**: Multi‑user AR drumming synced to a 360° video of the Vancouver Pride Parade. This README covers the **headset Unity project** (Quest 3 with passthrough). The PC projection/controller app is documented in **README #2** below.
+> **XR experience**: Multi‑user AR drumming synced to a 360° video of the Vancouver Pride Parade. This README covers the **headset Unity project** (Quest 3 with passthrough). The PC projection/controller app is documented **[here](https://github.com/reedbryan/cubemap-projection-mediaplayer/tree/master/Assets/PrideBeats)**.
 
 ---
 

@@ -14,49 +14,17 @@ Each session begins with a 3‑hit **calibration** so the user learns the intera
 
 
 ## Features
-- 🥁 AR drum with 2 tracked sticks (left/right hand)
-- 🌈 Pride‑themed hit and combo VFX
-- 🔁 Embedded 3‑hit calibration flow
-- 🔗 OSC networking (ExtOSC) for multi‑headset sessions
+- 🥁 AR drum, interactable via Quest touch sticks (left/right hand)
+- 🌈 Drum-hit indicators (notes) syncronized between multiple headsets and supported by pridefull VFX
+- 🔗 OSC networking along with a lobby system (ExtOSC) for multi‑headset sessions
 - ✅ Signed hit messages back to PC with timing/accuracy fields
-- 🕶️ Quest 3 passthrough (Mixed Reality)
-
-
-## Project structure (suggested)
-```
-Assets/
-  Scripts/
-    AR/
-      DrumController.cs
-      StickTracker.cs
-    Net/
-      OscClientHeadset.cs
-      OscMessageSchemas.cs
-      BroadcastDiscovery.cs
-      Heartbeat.cs
-    UX/
-      CalibrationUI.cs
-      VfxController.cs
-      Haptics.cs
-  Prefabs/
-    ARDrum.prefab
-    DrumSticks.prefab
-  Settings/
-    NetworkConfig.asset      # ports, secrets, timeouts
-    CalibrationConfig.asset  # hit count, thresholds
-  VFX/
-  Materials/
-  Scenes/
-    Main.unity
-```
+- 🕶️ Quest 3's built-in passthrough feature (Mixed Reality)
 
 
 ## Dependencies
 - **Unity**: 2022.3 LTS (recommended) — update to match your project
 - **ExtOSC** for OSC send/receive
 - **Meta/Quest 3** + **Passthrough** enabled (OpenXR/Meta XR)
-
-> Tip: Document exact package versions in `Packages/manifest.json` when you tag a release.
 
 
 ## Build & install (Quest 3)
@@ -65,7 +33,7 @@ Assets/
 3. Ensure **Passthrough** feature is on.
 4. Build an **APK**.
 5. **Sideload** with **SideQuest**:
-   - Install SideQuest, connect headset (developer mode).
+   - Install SideQuest, connect headset (developer mode must be active).
    - Drag the APK to SideQuest or `adb install -r path/to/PrideBeats.apk`.
    - On the headset: Library → **Unknown Sources** → **PrideBeats**.
 6. **Proximity sensor**: add a small piece of tape over the forehead sensor so the app stays running when the headset is off the face (for demos).

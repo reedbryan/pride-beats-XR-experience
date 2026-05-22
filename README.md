@@ -7,8 +7,8 @@
 ## Overview
 The headset build is a drumming simulator in AR. Each player wields two virtual drumsticks attached to their tracked hands and hits a single AR drum. Strikes trigger Pride‑inspired visual effects. The headset stays in lock‑step with a PC controller via **OSC** (Open Sound Control):
 
-- The **PC** broadcasts session/control messages.
-- The **headset** listens, responds with join/calibration status, and sends **signed** drum‑hit events including an "in‑sync" flag relative to the current note sequence.
+- The **PC** build broadcasts session/control messages ([code](https://github.com/reedbryan/cubemap-projection-mediaplayer/tree/master/Assets/PrideBeats)).
+- The **headset** build(s) listen, respond with status, and send **signed** drum‑hit events including an "in‑sync" flag relative to the current note sequence.
 
 Each session begins with a 3‑hit **calibration** so the user learns the interaction before gameplay starts.
 

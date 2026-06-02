@@ -13,6 +13,11 @@ The headset build is a drumming simulator in AR. Each player wields two virtual 
 Each session begins with a 3‑hit **calibration** so the user learns the interaction before gameplay starts.
 
 
+
+https://github.com/user-attachments/assets/a84027dc-52ac-47b6-86cc-6e6d2324827e
+
+
+
 ## Features
 - 🥁 AR drum, interactable via Quest touch sticks (left/right hand)
 - 🌈 Drum-hit indicators (notes) syncronized between multiple headsets and supported by pridefull VFX
@@ -90,10 +95,3 @@ Create a `NetworkConfig` asset (ScriptableObject) with:
 - On `/StartGame(countdown, sequence)`, display a countdown and prime the local note sequence.
 - When the countdown hits 0, begin evaluating hits against the sequence (±tolerance) to set `inSync`.
 - Send `/Hit` on every strike with the evaluated `inSync` and the corresponding `noteIdx` (or `-1` if between notes).
-
-
-## Demo media in README
-Inline MP4 with controls (commit `docs/demo.mp4`):
-```html
-<video src="documentation/media/PrideBeats-Demo-cut-trimed.mov" controls playsinline muted width="720"</video>
-```

@@ -17,7 +17,6 @@ Each session begins with a 3‑hit **calibration** so the user learns the intera
 - 🥁 AR drum, interactable via Quest touch sticks (left/right hand)
 - 🌈 Drum-hit indicators (notes) syncronized between multiple headsets and supported by pridefull VFX
 - 🔗 OSC networking along with a lobby system (ExtOSC) for multi‑headset sessions
-- ✅ Signed hit messages back to PC with timing/accuracy fields
 - 🕶️ Quest 3's built-in passthrough feature (Mixed Reality)
 
 
@@ -93,32 +92,8 @@ Create a `NetworkConfig` asset (ScriptableObject) with:
 - Send `/Hit` on every strike with the evaluated `inSync` and the corresponding `noteIdx` (or `-1` if between notes).
 
 
-## Developer tips
-- Keep physics simple (single collider for the drum head, per‑stick ray/sphere cast or kinematic rigidbodies).
-- Add subtle **haptics** on hits (controller vibration) if using Touch controllers.
-- Clamp VFX lifetime and pool emitters to avoid per‑frame allocations.
-- Add a **failsafe**: if PC is lost, show a reconnect UI and resume listening for `/SessionOpen`.
-
-
 ## Demo media in README
 Inline MP4 with controls (commit `docs/demo.mp4`):
 ```html
 <video src="docs/demo.mp4" controls playsinline muted width="720" poster="docs/thumbnail.jpg"></video>
 ```
-Or a small GIF:
-```md
-![Headset Demo](docs/demo.gif)
-```
-
-
-## Troubleshooting
-- **No session appears**: ensure PC is broadcasting on the correct subnet; headset and PC must be on the same Wi‑Fi.
-- **Firewall**: allow UDP on the configured ports.
-- **Passthrough black**: confirm Meta XR Passthrough is enabled and granted.
-- **App pauses off‑face**: add tape over proximity sensor or set appropriate XR flags.
-
-
-## Credits & licenses
-- 360° video footage: Vancouver Pride Parade (credit details here)
-- Networking: ExtOSC
-- Icons/graphics/VFX: (list your sources)

@@ -95,5 +95,5 @@ Create a `NetworkConfig` asset (ScriptableObject) with:
 ## Demo media in README
 Inline MP4 with controls (commit `docs/demo.mp4`):
 ```html
-<video src="docs/demo.mp4" controls playsinline muted width="720" poster="docs/thumbnail.jpg"></video>
+<video src="documentation/media/PrideBeats-Demo-cut-trimed.mov" controls playsinline muted width="720"</video>
 ```
